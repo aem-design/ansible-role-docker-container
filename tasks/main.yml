@@ -1,0 +1,87 @@
+---
+
+- name: "set facts"
+  set_fact:
+    default_docker_labels: "name={{ docker_container_name }}"
+    default_docker_restart_policy: "unless-stopped"
+    default_not_defined_label: "None"
+    default_container_privileged: "no"
+    default_docker_registry_images_pull: "no"
+    default_docker_container_state: "started"
+    default_docker_volume_driver: "local"
+    default_docker_container_userid: "root"
+    default_docker_command: ""
+    default_docker_published_ports: []
+    set_docker_labels: "{{ docker_labels | default('name={{ docker_container_name }}') }}"
+  tags:
+    - always
+
+- name: ensure container is started with params {{ role_comment }}
+  debug:
+    msg:
+      - "docker_container_name: {{ docker_container_name }}"
+      - "docker_image: {{ docker_image }}"
+      - "docker_image_tag: {{ docker_image_tag }}"
+      - "docker_published_ports: {{ docker_published_ports | default([]) }}"
+      - "docker_restart_policy: {{ docker_restart_policy | default(default_docker_restart_policy) }}"
+      - "default_docker_restart_policy: {{ default_docker_restart_policy }}"
+      - "docker_links: {{ docker_links | default([]) }}"
+      - "docker_volumes: {{ docker_volumes | default([]) }}"
+      - "docker_volume_driver: {{ docker_volume_driver | default(default_docker_volume_driver) }}"
+      - "docker_command: {{ docker_command | default(default_docker_command) }}"
+      - "default_docker_command: {{ default_docker_command }}"
+      - "docker_labels: {{ docker_labels | default('') }}"
+      - "set_docker_labels: {{ set_docker_labels | default('') }}"
+      - "docker_container_restart: {{ container_restart | default('no') }}"
+      - "docker_container_userid: {{ docker_container_userid | default(default_docker_container_userid) }}"
+      - "default_docker_container_userid: {{ default_docker_container_userid }}"
+      - "env: {{ env }}"
+      - "docker_registry_images_pull: {{ docker_registry_images_pull }}"
+      - "docker_container_privileged: {{ docker_container_privileged | default(default_container_privileged) }}"
+      - "default_container_privileged: {{ default_container_privileged }}"
+      - "default_docker_container_state: {{ default_docker_container_state }}"
+      - "docker_container_state: {{ docker_container_state | default(default_docker_container_state) }}"
+      - "default_docker_volume_driver: {{ default_docker_volume_driver }}"
+      - "docker_host: {{ docker_host }}"
+  no_log: "{{ debug_hide }}"
+
+- name: ensure container is started with volume, no user and no custom command {{ role_comment | default('') }}
+  docker_container:
+    name: "{{ docker_container_name }}"
+    image: "{{ docker_image }}:{{ docker_image_tag }}"
+    state: "{{ docker_container_state | default(default_docker_container_state) }}"
+    user: "{{ docker_container_userid | default(default_docker_container_userid) }}"
+    published_ports: "{{ docker_published_ports | default_docker_published_ports }}"
+    restart_policy: "{{ docker_restart_policy | default(default_docker_restart_policy) }}"
+    links: "{{ docker_links | default([]) }}"
+    volumes: "{{ docker_volumes | default([]) }}"
+    volume_driver: "{{ docker_volume_driver | default(default_docker_volume_driver) }}"
+    pull: "{{ docker_registry_images_pull | default(default_docker_registry_images_pull) }}"
+    env: "{{ docker_env | default([]) }}"
+    command: "{{ docker_command | default(default_docker_command) }}"
+    labels: "{{ set_docker_labels | default('') }}"
+    docker_host: "{{ docker_host | default('') }}"
+    privileged: "{{ docker_container_privileged }}"
+    restart: "{{ docker_container_restart }}"
+  become: yes
+  become_method: sudo
+  when:
+    - docker_container_restart | default('yes')
+    - docker_container_name is defined
+    - docker_image is defined
+    - docker_image_tag is defined
+  tags:
+    - always
+
+- name: ensure container is re-started {{ role_comment | default('') }}
+  docker_container:
+    name: "{{ docker_container_name }}"
+    state: "{{ docker_container_state | default('started') }}"
+    restart: "{{ docker_container_restart | default('no') }}"
+  become: yes
+  become_method: sudo
+  when:
+    - docker_container_name is defined
+    - docker_container_restart is defined
+  tags:
+    - always
