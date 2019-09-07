@@ -10,7 +10,7 @@ docker_restart_policy: "unless-stopped"
 docker_links: []
 docker_volumes: []
 docker_published_ports: []
-docker_env: []
+docker_env: {}
 docker_labels: "name={{ docker_container_name }}"
 docker_container_privileged: "no"
 docker_registry_images_pull: "no"

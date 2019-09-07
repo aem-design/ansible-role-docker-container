@@ -9,4 +9,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: ansible-role-docker-container
+    - {
+      role: ansible-role-docker-container,
+      debug_hide: false
+    }
