@@ -1,8 +1,8 @@
-# Ansible Role: AEM Toughday
+# Ansible Role: Docker Container
 
-[![Build Status](https://travis-ci.org/aem-design/ansible-role-aem-toughday.svg?branch=master)](https://travis-ci.org/aem-design/ansible-role-aem-toughday)
+[![Build Status](https://travis-ci.org/aem-design/ansible-role-docker-container.svg?branch=master)](https://travis-ci.org/aem-design/ansible-role-docker-container)
 
-This role tests AEM Dispatcher instance for specific Security patterns.
+This role for working with containers. Wrapper for Ansible `docker_container` role.
 > This role was developed as part of
 > [AEM.Design](http://aem.design/)
 
@@ -44,7 +44,11 @@ None.
 ```yaml
 - hosts: all
   roles:
-    - aem_design.aem_toughday
+    - { role: aem_design.docker_container,
+      docker_container_name: "author"
+      docker_image: "aemdesign/aem"
+      docker_image_tag: "6.5.0"
+    }
 ```
 
 ## License

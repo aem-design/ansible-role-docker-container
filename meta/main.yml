@@ -4,7 +4,7 @@ galaxy_info:
   author: Max Barrass
   description: Start docker containers in your playbooks and roles.
   company: aem.design
-  issue_tracker_url: https://github.com/aem-design/ansible-role-aem-toughday/issues
+  issue_tracker_url: https://github.com/aem-design/ansible-role-docker-container/issues
   license: Apache 2.0
   min_ansible_version: 2.4
 
