@@ -10,6 +10,6 @@
 
   roles:
     - {
-      role: ansible-role-docker-container,
+      role: aem_design.docker_container,
       debug_hide: false
     }
