@@ -12,9 +12,9 @@ docker_volumes: []
 docker_published_ports: []
 docker_env: {}
 docker_labels: "name={{ docker_container_name }}"
-docker_container_privileged: "no"
-docker_registry_images_pull: "no"
-docker_container_restart: "no"
+docker_container_privileged: false
+docker_registry_images_pull: false
+docker_container_restart: false
 docker_container_state: "started"
 docker_host: "localhost"
 docker_volume_driver: "local"

@@ -33,7 +33,7 @@
       - "default_docker_command: {{ default_docker_command }}"
       - "docker_labels: {{ docker_labels | default('') }}"
       - "set_docker_labels: {{ set_docker_labels | default('') }}"
-      - "docker_container_restart: {{ container_restart | default('no') }}"
+      - "docker_container_restart: {{ container_restart | default(false) }}"
       - "docker_container_userid: {{ docker_container_userid | default(default_docker_container_userid) }}"
       - "default_docker_container_userid: {{ default_docker_container_userid }}"
       - "docker_env: {{ docker_env }}"
@@ -67,7 +67,7 @@
   become: true
   become_method: sudo
   when:
-    - docker_container_restart | default('yes')
+    - docker_container_restart | default(true)
     - docker_container_name | length > 0
     - docker_image | length > 0
     - docker_image_tag | length > 0
@@ -78,7 +78,7 @@
   docker_container:
     name: "{{ docker_container_name }}"
     state: "{{ docker_container_state | default('started') }}"
-    restart: "{{ docker_container_restart | default('no') }}"
+    restart: "{{ docker_container_restart | default(false) }}"
   become: true
   become_method: sudo
   when:
