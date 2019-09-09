@@ -9,7 +9,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: docker_container
+    - role: aem_design.docker_container
       debug_hide: false
       vars:
         docker_container_name: "author"
