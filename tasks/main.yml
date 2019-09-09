@@ -5,13 +5,14 @@
     default_docker_labels: "name={{ docker_container_name }}"
     default_docker_restart_policy: "unless-stopped"
     default_not_defined_label: "None"
-    default_container_privileged: "no"
-    default_docker_registry_images_pull: "no"
+    default_container_privileged: false
+    default_docker_registry_images_pull: false
     default_docker_container_state: "started"
     default_docker_volume_driver: "local"
     default_docker_container_userid: "root"
     default_docker_command: ""
-    default_docker_published_ports: []
+    default_docker_container_restart: false
+    default_docker_host: ""
     set_docker_labels: "{{ docker_labels | default('name={{ docker_container_name }}') }}"
   tags:
     - always
@@ -43,7 +44,7 @@
       - "default_docker_container_state: {{ default_docker_container_state }}"
       - "docker_container_state: {{ docker_container_state | default(default_docker_container_state) }}"
       - "default_docker_volume_driver: {{ default_docker_volume_driver }}"
-      - "docker_host: {{ docker_host }}"
+      - "docker_host: {{ docker_host | default(default_docker_host) }}"
   no_log: "{{ debug_hide }}"
 
 - name: ensure container is started {{ role_comment | default('') }}
@@ -61,9 +62,9 @@
     env: "{{ docker_env }}"
     command: "{{ docker_command | default(default_docker_command) }}"
     labels: "{{ set_docker_labels | default('') }}"
-    docker_host: "{{ docker_host | default('') }}"
+    docker_host: "{{ docker_host | default(default_docker_host) }}"
     privileged: "{{ docker_container_privileged | default(default_container_privileged) }}"
-    restart: "{{ docker_container_restart }}"
+    restart: "{{ docker_container_restart | default(default_container_privileged) }}"
   become: true
   become_method: sudo
   when:
