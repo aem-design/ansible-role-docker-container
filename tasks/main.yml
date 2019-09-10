@@ -2,7 +2,7 @@
 
 - name: "set facts"
   set_fact:
-    role_comment: "{{ role_comment || default('docker_container') }}"
+    role_comment: "{{ role_comment | default('docker_container') }}"
     default_docker_labels: "name={{ docker_container_name }}"
     default_docker_restart_policy: "unless-stopped"
     default_not_defined_label: "None"
