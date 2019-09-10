@@ -38,7 +38,7 @@
       - "docker_container_userid: {{ docker_container_userid | default(default_docker_container_userid) }}"
       - "default_docker_container_userid: {{ default_docker_container_userid }}"
       - "docker_env: {{ docker_env }}"
-      - "docker_registry_images_pull: {{ docker_registry_images_pull }}"
+      - "docker_registry_images_pull: {{ docker_registry_images_pull | default(default_docker_registry_images_pull) }}"
       - "docker_container_privileged: {{ docker_container_privileged | default(default_container_privileged) }}"
       - "default_container_privileged: {{ default_container_privileged }}"
       - "default_docker_container_state: {{ default_docker_container_state }}"
