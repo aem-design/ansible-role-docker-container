@@ -31,3 +31,6 @@ rules:
     type: unix
   trailing-spaces: disable
   truthy: disable
+  line-length:
+    max: 200
+    level: warning
