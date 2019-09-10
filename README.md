@@ -44,11 +44,28 @@ None.
 ```yaml
 - hosts: all
   roles:
-    - { role: aem_design.docker_container,
-      docker_container_name: "author"
-      docker_image: "aemdesign/aem"
-      docker_image_tag: "6.5.0"
-    }
+    - role: aem_design.docker_container
+      debug_hide: false
+      vars:
+        docker_container_name: "author"
+        docker_image: "aemdesign/aem"
+        docker_image_tag: "6.5.0"
+        docker_published_ports: [
+          "0.0.0.0:8080:8080/tcp",
+          "0.0.0.0:58242:58242/tcp",
+          "0.0.0.0:57345:57345/tcp"
+        ]
+        docker_volumes: [
+          "author-repository:/aem/crx-quickstart/repository:z",
+          "author-logs:/aem/crx-quickstart/logs:z",
+          "author-backup:/aem/backup:z"
+        ]
+        docker_env:
+          TZ: "Australia/Melbourne"
+          AEM_JVM_OPTS: -server -Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=256M -XX:+CMSClassUnloadingEnabled
+            -Djava.awt.headless=true -Dorg.apache.felix.http.host=0.0.0.0
+          AEM_START_OPTS: "start -c /aem/crx-quickstart -i launchpad -p 8080 -a 0.0.0.0 -Dsling.properties=conf/sling.properties"
+          AEM_RUNMODE: "-Dsling.run.modes=author,crx3,crx3tar,nosamplecontent"
 ```
 
 ## License

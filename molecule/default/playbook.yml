@@ -27,8 +27,7 @@
         ]
         docker_env:
           TZ: "Australia/Melbourne"
-          AEM_JVM_OPTS: >
-            -server -Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=256M -XX:+CMSClassUnloadingEnabled
+          AEM_JVM_OPTS: -server -Xms1024m -Xmx1024m -XX:MaxDirectMemorySize=256M -XX:+CMSClassUnloadingEnabled
             -Djava.awt.headless=true -Dorg.apache.felix.http.host=0.0.0.0
           AEM_START_OPTS: "start -c /aem/crx-quickstart -i launchpad -p 8080 -a 0.0.0.0 -Dsling.properties=conf/sling.properties"
           AEM_RUNMODE: "-Dsling.run.modes=author,crx3,crx3tar,nosamplecontent"
